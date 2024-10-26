@@ -1,51 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Toast } from 'primereact/toast';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
 
 const DescargaCrud = () => {
-    const [descargas, setDescargas] = useState([]);
-    const [globalFilter, setGlobalFilter] = useState('');
-    const toast = useRef(null);
+    const [objetos, setObjetos] = useState([]);
+    const toast = React.useRef(null);
 
     useEffect(() => {
-        fetchDescargas();
+        const fetchObjetos = async () => {
+            const response = await axios.get('http://localhost:8080/api/objetos-aprendizaje/');
+            setObjetos(response.data);
+        };
+
+        fetchObjetos();
     }, []);
 
-    const fetchDescargas = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/descarga');
-            setDescargas(response.data);
-        } catch (error) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al obtener descargas', life: 3000 });
-        }
-    };
-
-    const handleSearch = (e) => {
-        setGlobalFilter(e.target.value);
+    const handleDownload = (fileName) => {
+        axios({
+            url: `http://localhost:8080/api/objetos-aprendizaje/descargar/${fileName}`,
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Archivo descargado correctamente' });
+        }).catch((error) => {
+            console.error('Error downloading file:', error);
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al descargar el archivo' });
+        });
     };
 
     return (
         <div className="container mt-4">
             <Toast ref={toast} />
-            <h2 className="text-center">Gestión de Descargas</h2>
-            <div className="p-inputgroup mb-3">
-                <InputText placeholder="Buscar..." value={globalFilter} onChange={handleSearch} />
-                <Button icon="pi pi-search" />
+            <h2 className="text-center">Descargas de Objetos de Aprendizaje</h2>
+            <div className="grid">
+                {objetos.map((obj, index) => (
+                    <div className="col-12 md:col-4" key={index}>
+                        <Card title={obj.archivo} className="mb-4">
+                            <Button label="Descargar" icon="pi pi-download" onClick={() => handleDownload(obj.archivo)} />
+                        </Card>
+                    </div>
+                ))}
             </div>
-            <DataTable value={descargas} paginator rows={10} globalFilter={globalFilter} responsiveLayout="scroll" className="p-datatable-striped">
-                <Column field="idDescarga" header="ID Descarga" sortable filter />
-                <Column field="fecha" header="Fecha" sortable filter />
-                <Column field="usuario.nombreUsuario" header="Usuario" sortable filter />
-                <Column field="objetoAprendizaje.archivo" header="Archivo Subido" sortable filter />
-                <Column field="objetoAprendizaje.fecha" header="Fecha Subida" sortable filter />
-            </DataTable>
         </div>
     );
 };

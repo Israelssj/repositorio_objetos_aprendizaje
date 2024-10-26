@@ -198,7 +198,7 @@ const GuionForm = () => {
           </select>
         </div>
 
-        {/* Mostrar campos de Video Interactivo si el tipo es "videoInteractivo" */}
+        {/* mostrar campos de Video Interactivo " */}
         {formData.tipoObjeto === 'videoInteractivo' && (
           <>
             <div className="form-group">
@@ -239,7 +239,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Mostrar campos de Crucigrama si el tipo es "crucigrama" */}
+        {/*  campos de Crucigrama */}
         {formData.tipoObjeto === 'crucigrama' && (
           <>
             <div className="form-group">
@@ -279,7 +279,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Mostrar campos de Arrastrar Palabras si el tipo es "arrastrarPalabras" */}
+        {/*  campos de Arrastrar Palabras " */}
         {formData.tipoObjeto === 'arrastrarPalabras' && (
           <>
             <div className="form-group">
@@ -306,7 +306,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Mostrar campos de Elección Múltiple si el tipo es "eleccionMultiple" */}
+        {/*  campos de elección multiple */}
         {formData.tipoObjeto === 'eleccionMultiple' && (
           <>
             <div className="form-group">
@@ -363,7 +363,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Mostrar campos de Cuestionario si el tipo es "cuestionario" */}
+        {/*  campos de cuestionario */}
         {formData.tipoObjeto === 'cuestionario' && (
           <>
             <div className="form-group">
@@ -409,7 +409,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Mostrar campos de Presentación de Curso si el tipo es "presentacionCurso" */}
+        {/*  campos de preesentación de curso */}
         {formData.tipoObjeto === 'presentacionCurso' && (
           <>
             <div className="form-group">

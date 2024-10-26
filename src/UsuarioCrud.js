@@ -29,6 +29,7 @@ const UsuarioCrud = () => {
             const response = await axios.get('http://localhost:8080/usuario');
             setUsuarios(response.data);
         } catch (error) {
+            console.error("Error al obtener usuarios:", error); // Log de error
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al obtener usuarios', life: 3000 });
         }
     };
@@ -38,6 +39,7 @@ const UsuarioCrud = () => {
             const response = await axios.get('http://localhost:8080/rol');
             setRoles(response.data);
         } catch (error) {
+            console.error("Error al obtener roles:", error); // Log de error
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al obtener roles', life: 3000 });
         }
     };
@@ -104,7 +106,7 @@ const UsuarioCrud = () => {
                 rol: null
             });
         } catch (error) {
-            console.error('Error saving usuario:', error);
+            console.error('Error saving usuario:', error); // Log de error
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al guardar el usuario', life: 3000 });
         }
     };
@@ -115,7 +117,7 @@ const UsuarioCrud = () => {
             toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Usuario eliminado correctamente', life: 3000 });
             fetchUsuarios();
         } catch (error) {
-            console.error('Error deleting usuario:', error);
+            console.error('Error deleting usuario:', error); // Log de error
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al eliminar el usuario', life: 3000 });
         }
     };
@@ -164,10 +166,10 @@ const UsuarioCrud = () => {
                             <td>{usuario.apellidoPaterno}</td>
                             <td>{usuario.apellidoMaterno}</td>
                             <td>{usuario.email}</td>
-                            <td>{usuario.rol ? usuario.rol.nombreRol : 'No asignado'}</td>
+                            <td>{usuario.rol ? usuario.rol.nombreRol : "Sin rol"}</td>
                             <td>
-                                <Button variant="warning" onClick={() => handleEditUsuario(usuario)}>Editar</Button>
-                                <Button variant="danger" onClick={() => handleDeleteUsuario(usuario.idUsuario)}>Borrar</Button>
+                                <Button variant="warning" onClick={() => handleEditUsuario(usuario)}>Editar</Button>{' '}
+                                <Button variant="danger" onClick={() => handleDeleteUsuario(usuario.idUsuario)}>Eliminar</Button>
                             </td>
                         </tr>
                     ))}
@@ -180,74 +182,35 @@ const UsuarioCrud = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group controlId="nombreUsuario">
-                            <Form.Label>Nombre del Usuario</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={currentUsuario.nombreUsuario}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, nombreUsuario: e.target.value })}
-                                isInvalid={!!errors.nombreUsuario}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.nombreUsuario}
-                            </Form.Control.Feedback>
+                        <Form.Group controlId="formNombre">
+                            <Form.Label>Nombre</Form.Label>
+                            <Form.Control type="text" value={currentUsuario.nombreUsuario} onChange={(e) => setCurrentUsuario({ ...currentUsuario, nombreUsuario: e.target.value })} isInvalid={!!errors.nombreUsuario} />
+                            <Form.Control.Feedback type="invalid">{errors.nombreUsuario}</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="apellidoPaterno">
+                        <Form.Group controlId="formApellidoPaterno">
                             <Form.Label>Apellido Paterno</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={currentUsuario.apellidoPaterno}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, apellidoPaterno: e.target.value })}
-                                isInvalid={!!errors.apellidoPaterno}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.apellidoPaterno}
-                            </Form.Control.Feedback>
+                            <Form.Control type="text" value={currentUsuario.apellidoPaterno} onChange={(e) => setCurrentUsuario({ ...currentUsuario, apellidoPaterno: e.target.value })} isInvalid={!!errors.apellidoPaterno} />
+                            <Form.Control.Feedback type="invalid">{errors.apellidoPaterno}</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="apellidoMaterno">
+                        <Form.Group controlId="formApellidoMaterno">
                             <Form.Label>Apellido Materno</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={currentUsuario.apellidoMaterno}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, apellidoMaterno: e.target.value })}
-                                isInvalid={!!errors.apellidoMaterno}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.apellidoMaterno}
-                            </Form.Control.Feedback>
+                            <Form.Control type="text" value={currentUsuario.apellidoMaterno} onChange={(e) => setCurrentUsuario({ ...currentUsuario, apellidoMaterno: e.target.value })} isInvalid={!!errors.apellidoMaterno} />
+                            <Form.Control.Feedback type="invalid">{errors.apellidoMaterno}</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="email">
+                        <Form.Group controlId="formEmail">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                value={currentUsuario.email}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, email: e.target.value })}
-                                isInvalid={!!errors.email}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.email}
-                            </Form.Control.Feedback>
+                            <Form.Control type="email" value={currentUsuario.email} onChange={(e) => setCurrentUsuario({ ...currentUsuario, email: e.target.value })} isInvalid={!!errors.email} />
+                            <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="password"> {}
+                        <Form.Group controlId="formPassword">
                             <Form.Label>Contraseña</Form.Label>
-                            <Form.Control
-                                type="password"
-                                value={currentUsuario.password}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, password: e.target.value })}
-                                isInvalid={!!errors.password}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.password}
-                            </Form.Control.Feedback>
+                            <Form.Control type="password" value={currentUsuario.password} onChange={(e) => setCurrentUsuario({ ...currentUsuario, password: e.target.value })} isInvalid={!!errors.password} />
+                            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="rol">
+                        <Form.Group controlId="formRol">
                             <Form.Label>Rol</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={currentUsuario.rol ? currentUsuario.rol.idRol : ''}
-                                onChange={(e) => setCurrentUsuario({ ...currentUsuario, rol: roles.find(rol => rol.idRol === parseInt(e.target.value)) })}
-                            >
-                                <option value="">Seleccione un Rol</option>
+                            <Form.Control as="select" value={currentUsuario.rol ? currentUsuario.rol.idRol : ''} onChange={(e) => setCurrentUsuario({ ...currentUsuario, rol: roles.find(rol => rol.idRol === parseInt(e.target.value)) })}>
+                                <option value="">Seleccionar rol</option>
                                 {roles.map(rol => (
                                     <option key={rol.idRol} value={rol.idRol}>{rol.nombreRol}</option>
                                 ))}
@@ -257,7 +220,7 @@ const UsuarioCrud = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleModalClose}>Cancelar</Button>
-                    <Button variant="primary" onClick={handleSaveUsuario}>Guardar</Button>
+                    <Button variant="primary" onClick={handleSaveUsuario}>{currentUsuario.idUsuario ? 'Actualizar' : 'Guardar'}</Button>
                 </Modal.Footer>
             </Modal>
         </div>

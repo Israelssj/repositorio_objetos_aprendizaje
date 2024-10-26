@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
 import { Toast } from 'primereact/toast';
+import { Card } from 'primereact/card';
 
 const ObjetoAprendizajeCrud = () => {
     const [objetos, setObjetos] = useState([]);
@@ -30,9 +31,11 @@ const ObjetoAprendizajeCrud = () => {
     return (
         <div className="container mt-4">
             <Toast ref={toast} />
-            <h2>Subir Objeto de Aprendizaje</h2>
-            <FileUpload name="file" accept=".h5p" maxFileSize={10000000} customUpload uploadHandler={onUpload} auto />
-            <h3 className="mt-4">Objetos de Aprendizaje Subidos</h3>
+            <h2 className="text-center">Subir Objeto de Aprendizaje</h2>
+            <Card>
+                <FileUpload name="file" accept=".h5p" maxFileSize={10000000} customUpload uploadHandler={onUpload} auto />
+            </Card>
+            <h3 className="mt-4 text-center">Objetos de Aprendizaje Subidos</h3>
             <ul>
                 {objetos.map((obj, index) => (
                     <li key={index}>{obj.archivo}</li>
