@@ -379,7 +379,7 @@ const GuionForm = () => {
         for (const elemento of formData.cuestionario.elementos) {
           const elementoResponse = await axios.post('http://localhost:8080/api/elementos-cuestionario', {
             pregunta: elemento.pregunta,
-            tipoPregunta: tipoPreguntaMap[elemento.tipoPregunta], // Convertir a Integer
+            tipoPregunta: tipoPreguntaMap[elemento.tipoPregunta], 
             cuestionario: { idCuestionario: cuestionarioId },
           });
 
@@ -452,7 +452,7 @@ const GuionForm = () => {
         life: 3000,
       });
 
-      // Restablecer el formulario
+      // restablece el formulario
       setFormData({
         titulo: '',
         descripcion: '',
@@ -500,7 +500,7 @@ const GuionForm = () => {
             required
           />
         </div>
-        {/* Otros campos de Guion */}
+ 
         <div className="form-group">
           <label>Descripción</label>
           <input
@@ -512,7 +512,7 @@ const GuionForm = () => {
             required
           />
         </div>
-        {/* Campos adicionales */}
+       
         <div className="form-group">
           <label>Fecha de Creación</label>
           <input
