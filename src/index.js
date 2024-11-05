@@ -8,13 +8,14 @@ import 'primereact/resources/primereact.min.css';           // Core CSS de Prime
 import 'primeicons/primeicons.css';                         // Iconos de PrimeIcons
 import 'primeflex/primeflex.css';                           // Utilidades CSS de PrimeFlex
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+import { AuthProvider } from './AuthContext';              
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>  
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 

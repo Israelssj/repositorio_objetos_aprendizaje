@@ -1,0 +1,62 @@
+/* src/Login.css */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap");
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fc;
+}
+
+.login-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6b8dd6, #4864d6);
+}
+
+.login-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-title {
+  margin-bottom: 1.5rem;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.p-field {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.p-field label {
+  font-weight: 500;
+  color: #555;
+}
+
+.p-button.login-button {
+  width: 100%;
+  background-color: #4864d6;
+  border: none;
+}
+
+.p-button.login-button:hover {
+  background-color: #354cb2;
+}
+
+.p-inputtext {
+  width: 100%;
+}
+
+.password {
+  width: 100%;
+}

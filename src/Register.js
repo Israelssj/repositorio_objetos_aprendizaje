@@ -20,9 +20,12 @@ function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
+    //  excluir el rol de administrador
     axios.get('http://localhost:8080/rol')
-      .then(response => setRoles(response.data))
+      .then(response => {
+        const filteredRoles = response.data.filter(rol => rol.nombreRol !== 'administrador.');
+        setRoles(filteredRoles);
+      })
       .catch(error => console.error('Error al obtener los roles:', error));
   }, []);
 

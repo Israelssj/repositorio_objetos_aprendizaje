@@ -1,18 +1,26 @@
+// AuthContext.js
 import React, { createContext, useState, useContext } from 'react';
-
 
 const AuthContext = createContext();
 
-
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({ isAuthenticated: false, user: null });
+  const [auth, setAuth] = useState({
+    isAuthenticated: false,
+    user: null,
+  });
 
   const login = (userData) => {
-    setAuth({ isAuthenticated: true, user: userData });
+    setAuth({
+      isAuthenticated: true,
+      user: userData,
+    });
   };
 
   const logout = () => {
-    setAuth({ isAuthenticated: false, user: null });
+    setAuth({
+      isAuthenticated: false,
+      user: null,
+    });
   };
 
   return (
@@ -22,11 +30,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth debe ser utilizado dentro de un AuthProvider");
+    throw new Error('useAuth debe ser utilizado dentro de un AuthProvider');
   }
   return context;
 };
