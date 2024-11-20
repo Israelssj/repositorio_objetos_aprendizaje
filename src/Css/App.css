@@ -1,0 +1,333 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.active {
+  font-weight: bold;
+  color: #007bff;  
+}
+
+/* App.css */
+.layout-topbar {
+  background-color: #343a40;
+  padding: 1rem;
+  color: #fff;
+}
+
+.p-menubar .p-menuitem-link {
+  color: #fff !important;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.md\:col-4 {
+  flex: 0 0 33.333%;
+  max-width: 33.333%;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.estado-pendiente {
+  color: orange;
+}
+.estado-aprobado {
+  color: green;
+}
+.estado-denegado {
+  color: red;
+}
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+h2 {
+  color: #007bff;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card-style {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card-style:hover {
+  transform: translateY(-5px);
+}
+
+.p-button-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.p-button-primary:hover {
+  background-color: #0056b3;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título principal */
+h2 {
+  color: #007bff;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+/* Subtítulo */
+h3 {
+  color: #6c757d;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Estilo de la cuadrícula */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Tarjetas */
+.card-style {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+.card-style:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón de subida (PrimeReact FileUpload) */
+.p-fileupload-buttonbar {
+  display: flex;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: none;
+  padding: 0.5rem;
+}
+
+.p-fileupload .p-button {
+  background-color: #007bff;
+  border: none;
+  font-weight: bold;
+}
+
+.p-fileupload .p-button:hover {
+  background-color: #0056b3;
+}
+
+/* Paginador */
+.p-paginator {
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 50%;
+}
+
+.text-center {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+
+/* Navbar principal */
+.navbar {
+  background-color: #007bff; /* Fondo azul */
+  padding: 1rem; /* Espaciado interno */
+}
+
+.navbar .navbar-brand {
+  font-size: 1.5rem; /* Tamaño del texto principal */
+  font-weight: bold; /* Resaltar el texto */
+  color: white !important; /* Color blanco */
+}
+
+.navbar .navbar-brand:hover {
+  text-decoration: none; /* Sin subrayado al pasar el mouse */
+}
+
+/* Estilo de los enlaces del Navbar */
+.navbar .nav-link {
+  color: white !important; /* Color blanco */
+  font-size: 1.1rem; /* Tamaño de texto */
+  margin-right: 15px; /* Espaciado entre enlaces */
+  font-weight: bold; /* Resaltamos el texto */
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
+/* Botón de hamburguesa */
+.navbar-toggler {
+  border: none; /* Quitar el borde del botón */
+  padding: 0.5rem; /* Espaciado interno */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Icono SVG */
+  width: 24px;
+  height: 24px;
+}
+
+/* Opciones dentro del Navbar */
+.navbar-collapse {
+  justify-content: space-between; /* Separar elementos izquierda y derecha */
+  align-items: center; /* Alinear verticalmente */
+}
+
+/* Estilo para dispositivos móviles */
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.2rem; /* Reducir tamaño de la marca */
+    padding: 5px 0;
+  }
+
+  .navbar-nav {
+    text-align: left; /* Alinear el menú a la izquierda */
+    margin-top: 10px;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1rem; /* Reducir el texto */
+    padding: 10px 0; /* Espaciado vertical */
+  }
+
+  .navbar-toggler {
+    padding: 0.5rem; /* Reducir espaciado */
+    font-size: 1rem;
+  }
+}
+
+/* Estilo para dispositivos muy pequeños */
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 1rem; /* Texto aún más compacto */
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 0.9rem; /* Texto pequeño para móviles */
+    padding: 8px 10px; /* Espaciado reducido */
+  }
+
+  .navbar-toggler-icon {
+    width: 22px; /* Botón más pequeño */
+    height: 22px;
+  }
+}
+

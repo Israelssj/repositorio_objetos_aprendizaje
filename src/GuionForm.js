@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
+import { useAuth } from './AuthContext';
 
 const GuionForm = () => {
+  const { auth } = useAuth();
   const [formData, setFormData] = useState({
     titulo: '',
     descripcion: '',
@@ -31,7 +33,7 @@ const GuionForm = () => {
     'Opción Múltiple': 2,
   };
 
-  // Manejadores de cambio
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -66,14 +68,27 @@ const GuionForm = () => {
     });
   };
 
+
   const handleRespuestaChange = (indexElemento, indexRespuesta, e) => {
     const newElementos = [...formData.cuestionario.elementos];
-    newElementos[indexElemento].respuestas[indexRespuesta] = e.target.value;
+    newElementos[indexElemento].respuestas[indexRespuesta].texto = e.target.value; 
     setFormData({
       ...formData,
       cuestionario: { ...formData.cuestionario, elementos: newElementos },
     });
   };
+  
+
+
+const handleCorrectaCuestionarioChange = (indexElemento, indexRespuesta, e) => {
+  const newElementos = [...formData.cuestionario.elementos];
+  newElementos[indexElemento].respuestas[indexRespuesta].correcta = e.target.checked;
+  setFormData({
+    ...formData,
+    cuestionario: { ...formData.cuestionario, elementos: newElementos },
+  });
+};
+
 
   
 
@@ -112,7 +127,7 @@ const GuionForm = () => {
     });
   };
   
-  // Añadir y eliminar diapositivas
+  
   const addDiapositiva = () => {
     setFormData({
       ...formData,
@@ -133,7 +148,7 @@ const GuionForm = () => {
   };
   
 
-  // Manejadores de elementos
+  
   const handleElementosVideoChange = (index, e) => {
     const newElementos = [...formData.videoInteractivo.elementos];
     newElementos[index][e.target.name] = e.target.value;
@@ -161,7 +176,7 @@ const GuionForm = () => {
     });
   };
 
-  // Añadir y eliminar elementos
+  
   const addElementoVideo = () => {
     setFormData({
       ...formData,
@@ -224,16 +239,24 @@ const GuionForm = () => {
 
 
   
-  // Añadir y eliminar elementos de cuestionario
+  
   const addElementoCuestionario = () => {
     setFormData({
       ...formData,
       cuestionario: {
         ...formData.cuestionario,
-        elementos: [...formData.cuestionario.elementos, { pregunta: '', tipoPregunta: 'Abierta', respuestas: [''] }],
+        elementos: [
+          ...formData.cuestionario.elementos,
+          {
+            pregunta: '',
+            tipoPregunta: 'Abierta',
+            respuestas: [{ texto: '', correcta: false }], 
+          },
+        ],
       },
     });
   };
+  
 
   const removeElementoCuestionario = (index) => {
     const newElementos = [...formData.cuestionario.elementos];
@@ -246,12 +269,14 @@ const GuionForm = () => {
 
   const addRespuesta = (index) => {
     const newElementos = [...formData.cuestionario.elementos];
-    newElementos[index].respuestas.push('');
+    newElementos[index].respuestas.push({ texto: '', correcta: false }); 
     setFormData({
       ...formData,
       cuestionario: { ...formData.cuestionario, elementos: newElementos },
     });
   };
+  
+  
 
   const removeRespuesta = (indexElemento, indexRespuesta) => {
     const newElementos = [...formData.cuestionario.elementos];
@@ -262,7 +287,7 @@ const GuionForm = () => {
     });
   };
 
-    // Añadir y eliminar elementos de elección múltiple
+    
     const addElementoEleccionMultiple = () => {
       setFormData({
         ...formData,
@@ -300,12 +325,12 @@ const GuionForm = () => {
       });
     };
 
-  // Manejar envío del formulario
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const guionResponse = await axios.post('http://localhost:8080/api/guiones', {
-        // Datos del guion
+        // guion
         titulo: formData.titulo,
         descripcion: formData.descripcion,
         fechaCreacion: formData.fechaCreacion,
@@ -317,6 +342,7 @@ const GuionForm = () => {
         semestre: formData.semestre,
         tipoObjeto: formData.tipoObjeto,
         objetoAprendizaje: '',
+        usuario: { idUsuario: auth.user.id },
       });
 
       const guionId = guionResponse.data.idGuion;
@@ -373,26 +399,35 @@ const GuionForm = () => {
         const cuestionarioResponse = await axios.post('http://localhost:8080/api/cuestionarios', {
           guion: { idGuion: guionId },
         });
-
+      
         const cuestionarioId = cuestionarioResponse.data.idCuestionario;
-
+      
         for (const elemento of formData.cuestionario.elementos) {
           const elementoResponse = await axios.post('http://localhost:8080/api/elementos-cuestionario', {
             pregunta: elemento.pregunta,
-            tipoPregunta: tipoPreguntaMap[elemento.tipoPregunta], 
+            tipoPregunta: tipoPreguntaMap[elemento.tipoPregunta],
             cuestionario: { idCuestionario: cuestionarioId },
           });
-
+      
           const elementoId = elementoResponse.data.idElementosCuestionario;
-
+      
           for (const respuesta of elemento.respuestas) {
+            if (!respuesta.texto || typeof respuesta.correcta === "undefined") {
+              console.error("Faltan datos en la respuesta:", respuesta);
+              continue; // Omite esta respuesta si no es válida
+            }
+      
             await axios.post('http://localhost:8080/api/respuestas-cuestionario', {
-              texto: respuesta,
+              texto: respuesta.texto, 
+              correcta: respuesta.correcta || false, 
               elementosCuestionario: { idElementosCuestionario: elementoId },
             });
           }
         }
       }
+      
+          
+
 
       
 
@@ -452,7 +487,7 @@ const GuionForm = () => {
         life: 3000,
       });
 
-      // restablece el formulario
+      // restablecer formulario
       setFormData({
         titulo: '',
         descripcion: '',
@@ -608,7 +643,7 @@ const GuionForm = () => {
 </div>
 
 
-        {/* Campos específicos para VideoInteractivo */}
+        {/* Campos VideoInteractivo */}
         {formData.tipoObjeto === 'videoInteractivo' && (
           <>
             <div className="form-group">
@@ -669,7 +704,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Campos específicos para Crucigrama */}
+        {/* CamposCrucigrama */}
         {formData.tipoObjeto === 'crucigrama' && (
           <>
             <div className="form-group">
@@ -724,7 +759,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Campos específicos para Arrastrar Palabras */}
+        {/* Campo Palabras */}
         {formData.tipoObjeto === 'arrastrarPalabras' && (
           <>
             <div className="form-group">
@@ -770,7 +805,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Campos específicos para Cuestionario */}
+        {/* Campos Cuestionario */}
         {formData.tipoObjeto === 'cuestionario' && (
           <>
             <div className="form-group">
@@ -795,32 +830,43 @@ const GuionForm = () => {
                   >
                     <option value="Abierta">Abierta</option>
                     <option value="Opción Múltiple">Opción Múltiple</option>
-                    {/* Agrega más tipos de pregunta según sea necesario */}
+                    
                   </select>
                   <label className="mt-2">Respuestas</label>
                   {elemento.tipoPregunta === 'Opción Múltiple' && (
                     <>
                       {elemento.respuestas.map((respuesta, indexRespuesta) => (
-                        <div key={indexRespuesta} className="mb-1">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Respuesta"
-                            value={respuesta}
-                            onChange={(e) =>
-                              handleRespuestaChange(indexElemento, indexRespuesta, e)
-                            }
-                            required
-                          />
-                          <button
-                            type="button"
-                            className="btn btn-danger mt-1"
-                            onClick={() => removeRespuesta(indexElemento, indexRespuesta)}
-                          >
-                            Eliminar Respuesta
-                          </button>
-                        </div>
-                      ))}
+  <div key={indexRespuesta} className="mb-1">
+    <input
+      type="text"
+      className="form-control"
+      placeholder="Respuesta"
+      value={respuesta.texto}
+      onChange={(e) =>
+        handleRespuestaChange(indexElemento, indexRespuesta, e)
+      }
+      required
+    />
+    <label className="ml-2">
+      <input
+        type="checkbox"
+        checked={respuesta.correcta || false}
+        onChange={(e) =>
+          handleCorrectaCuestionarioChange(indexElemento, indexRespuesta, e)
+        }
+      />
+      Correcta
+    </label>
+    <button
+      type="button"
+      className="btn btn-danger mt-1"
+      onClick={() => removeRespuesta(indexElemento, indexRespuesta)}
+    >
+      Eliminar Respuesta
+    </button>
+  </div>
+))}
+
                       <button
                         type="button"
                         className="btn btn-secondary mt-2"
@@ -850,7 +896,7 @@ const GuionForm = () => {
           </>
         )}
 
-        {/* Campos específicos para Elección Múltiple */}
+        {/* Campos Elección Múltiple */}
 {formData.tipoObjeto === 'eleccionMultiple' && (
   <>
     <div className="form-group">

@@ -1,17 +1,15 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import { useAuth } from './AuthContext';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import api from './axiosConfig';
+import './Css/Login.css';
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const toast = useRef(null);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -23,36 +21,81 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/login', formData);
-      if (response.status === 200) {
-        login(response.data);  
-        localStorage.setItem('user', JSON.stringify(response.data)); 
-        toast.current.show({ severity: 'success', summary: 'Inicio de Sesión Exitoso', detail: `Bienvenido, ${response.data.nombreUsuario}`, life: 3000 });
-        navigate('/roles');
+      const response = await api.post('/auth/login', formData);
+      if (response.status === 200 && response.data.token) {
+        login(response.data);
+        toast.current.show({
+          severity: 'success',
+          summary: 'Inicio de Sesión Exitoso',
+          detail: `Bienvenido, ${response.data.user.nombre}`,
+          life: 3000
+        });
+        navigate('/');
       } else {
-        toast.current.show({ severity: 'error', summary: 'Error', detail: 'Credenciales incorrectas', life: 3000 });
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Credenciales incorrectas',
+          life: 3000
+        });
       }
     } catch (error) {
-      console.error('Error durante el inicio de sesión:', error);
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al iniciar sesión', life: 3000 });
+      const errorMessage = error.response?.status === 401
+        ? 'Credenciales inválidas. Por favor, verifica tus datos.'
+        : 'Error al iniciar sesión. Intenta nuevamente.';
+      toast.current.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: errorMessage,
+        life: 3000
+      });
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="login-container">
       <Toast ref={toast} />
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label>Email</label>
-          <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>Contraseña</label>
-          <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
-        </div>
-        <button type="submit" className="btn btn-primary mt-3">Iniciar Sesión</button>
-      </form>
+      <div className="login-box">
+        <h2 className="login-title">Bienvenido</h2>
+        <p className="login-subtitle">Inicia sesión para acceder a la plataforma educativa</p>
+        <form onSubmit={handleLogin} className="login-form">
+          <label htmlFor="email" className="input-label">Correo electrónico</label>
+          <InputText
+            id="email"
+            type="text"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Ingrese su correo"
+            className="input-field"
+          />
+          <label htmlFor="password" className="input-label">Contraseña</label>
+          <div className="password-wrapper">
+            <InputText
+              id="password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Ingrese su contraseña"
+              className="input-field"
+            />
+            <Button
+              icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
+              onClick={() => setShowPassword(!showPassword)}
+              type="button"
+              className="toggle-password"
+              aria-label="Mostrar/Ocultar contraseña"
+            />
+          </div>
+          <Button
+            label="Iniciar Sesión"
+            icon="pi pi-sign-in"
+            className="login-button"
+            type="submit"
+          />
+        </form>
+      </div>
     </div>
   );
 }

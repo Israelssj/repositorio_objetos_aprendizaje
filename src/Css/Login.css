@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap");
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fc;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  padding-top: 10vh; 
+  height: 100vh;
+  width: 100%;
+}
+
+.login-box {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.input-label {
+  text-align: left;
+  font-weight: 500;
+  color: #555;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 35%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+}
+
+.login-button:hover {
+  background-color: #2563eb;
+}
+.password-strength {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.password-strength.débil {
+  color: red;
+}
+
+.password-strength.moderada {
+  color: orange;
+}
+
+.password-strength.fuerte {
+  color: green;
+}
+.password-feedback {
+  list-style-type: disc;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.password-feedback li {
+  color: #ff5722; 
+}
+
+.password-feedback li.valid {
+  color: #4caf50; 
+}
+
+.custom-dropdown .p-dropdown {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+}
+
+.custom-dropdown .p-dropdown-label {
+  color: #555;
+  font-weight: 500;
+}

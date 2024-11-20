@@ -1,0 +1,237 @@
+/* Contenedor del Navbar en toda la pantalla */
+.navbar-admin {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdcdc;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo del Menubar */
+.p-menubar {
+    width: 100%;
+    background-color: #ffffff !important;
+    border: none;
+    padding: 0.5rem 1.5rem;
+}
+
+/* Estilo de los enlaces del Menubar */
+.p-menubar .p-menuitem-link {
+    color: #495057 !important;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.75rem 1rem;
+}
+
+.p-menubar .p-menuitem-link:hover {
+    background-color: #f8f9fa !important; /* Fondo al pasar el mouse */
+    color: #007bff !important; /* Texto azul al pasar el mouse */
+}
+
+/* Íconos del Menubar */
+.p-menubar .pi {
+    margin-right: 0.5rem;
+}
+
+/* Botón de Cerrar Sesión */
+.p-button-text {
+    color: #495057;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.p-button-text:hover {
+    color: #dc3545;
+    background: #f8f9fa;
+}
+
+/* Estilo de Submenús */
+.p-menubar .p-submenu-list .p-menuitem-link {
+    font-size: 0.95rem;
+}
+
+/* Ajustes de Espaciado */
+.full-width {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* CSS DE ADMIN */
+/* Contenedor del Menubar */
+.navbar-admin {
+    margin-bottom: 1.5rem;
+}
+
+/* Estilo del Menubar */
+.p-menubar {
+    border: 1px solid #dcdcdc !important;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff !important;
+}
+
+.p-menubar .p-menuitem-link {
+    color: #495057 !important; /* Texto neutro */
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.p-menubar .p-menuitem-link:hover {
+    background-color: #f8f9fa !important; /* Fondo al pasar el mouse */
+    color: #007bff !important; /* Color de texto al pasar el mouse */
+}
+
+.p-menubar .pi {
+    margin-right: 0.5rem;
+}
+
+/* Botón de Cerrar Sesión */
+.p-button-text {
+    color: #495057;
+    border: none;
+    font-weight: 500;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.p-button-text:hover {
+    color: #dc3545;
+    background: #f8f9fa;
+}
+
+/* Submenús */
+.p-menubar .p-submenu-list .p-menuitem-link {
+    font-size: 0.95rem;
+}
+
+
+/* Estilo para las opciones del navbar */
+.navbar .nav-link {
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  .navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Submenús */
+  .dropdown-menu {
+    background-color: #f8f9fa;
+  }
+  
+  .dropdown-item {
+    color: #333;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Botón hamburguesa */
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  /* Dropdowns personalizados */
+.navbar .dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .navbar .dropdown-item {
+    color: #333;
+  }
+  
+  .navbar .dropdown-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Botones del navbar */
+  .navbar .nav-link {
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  .navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+  /* Centrado de dropdowns */
+.navbar .dropdown-menu {
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .navbar .dropdown-item {
+    color: #333;
+  }
+  
+  .navbar .dropdown-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Estilo de los enlaces del navbar */
+  .navbar .nav-link {
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  .navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+  /* Centrado de las opciones */
+.navbar .navbar-nav {
+    justify-content: center;
+  }
+  
+  .navbar .nav-link {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white !important;
+    margin: 0 10px;
+  }
+  
+  .navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Iconos alineados */
+  .navbar .nav-link i {
+    margin-right: 5px;
+  }
+  /* Centrado de las opciones */
+.navbar .navbar-nav {
+    justify-content: center;
+  }
+  
+  .navbar .nav-link {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white !important;
+    margin: 0 10px;
+  }
+  
+  .navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Iconos alineados */
+  .navbar .nav-link i {
+    margin-right: 5px;
+  }
+  
