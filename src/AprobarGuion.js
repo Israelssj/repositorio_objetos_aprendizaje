@@ -112,9 +112,7 @@ function AprobarGuion() {
         <p>
           <strong>Fecha de Creación:</strong> {guion.fechaCreacion}
         </p>
-        <p>
-          <strong>Materia:</strong> {guion.materia}
-        </p>
+
         <p>
           <strong>Docente:</strong> {guion.nombreDocente}
         </p>

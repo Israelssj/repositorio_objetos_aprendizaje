@@ -48,7 +48,7 @@ function App() {
       <i className="pi pi-home"></i> Inicio
     </NavLink>
 
-    {/* Botón hamburguesa */}
+
     <button
       className="navbar-toggler"
       type="button"
@@ -61,7 +61,7 @@ function App() {
       <span className="navbar-toggler-icon"></span>
     </button>
 
-    {/* Opciones del menú */}
+ 
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav me-auto">
         {!auth.isAuthenticated && (
@@ -122,7 +122,7 @@ function App() {
       <div>
         {renderNavbar()}
 
-        {/* Modal de ayuda */}
+        
         <Modal show={showHelpModal} onHide={() => setShowHelpModal(false)} centered>
           <Modal.Header closeButton>
             <Modal.Title>Ayuda</Modal.Title>

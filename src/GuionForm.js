@@ -10,7 +10,6 @@ const GuionForm = () => {
     titulo: '',
     descripcion: '',
     fechaCreacion: '',
-    materia: '',
     nombreDocente: '',
     nombreMateria: '',
     nombreTema: '',
@@ -334,7 +333,6 @@ const handleCorrectaCuestionarioChange = (indexElemento, indexRespuesta, e) => {
         titulo: formData.titulo,
         descripcion: formData.descripcion,
         fechaCreacion: formData.fechaCreacion,
-        materia: formData.materia,
         nombreDocente: formData.nombreDocente,
         nombreMateria: formData.nombreMateria,
         nombreTema: formData.nombreTema,
@@ -559,17 +557,7 @@ const handleCorrectaCuestionarioChange = (indexElemento, indexRespuesta, e) => {
             required
           />
         </div>
-        <div className="form-group">
-          <label>Materia</label>
-          <input
-            type="text"
-            className="form-control"
-            name="materia"
-            value={formData.materia}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        
         <div className="form-group">
           <label>Nombre del Docente</label>
           <input

@@ -167,28 +167,28 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Título principal */
+
 h2 {
   color: #007bff;
   margin-bottom: 1.5rem;
   font-weight: bold;
 }
 
-/* Subtítulo */
+
 h3 {
   color: #6c757d;
   margin-bottom: 1rem;
   font-weight: bold;
 }
 
-/* Estilo de la cuadrícula */
+
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-/* Tarjetas */
+
 .card-style {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -245,38 +245,38 @@ h3 {
 }
 
 
-/* Navbar principal */
+
 .navbar {
-  background-color: #007bff; /* Fondo azul */
-  padding: 1rem; /* Espaciado interno */
+  background-color: #007bff; 
+  padding: 1rem; 
 }
 
 .navbar .navbar-brand {
-  font-size: 1.5rem; /* Tamaño del texto principal */
-  font-weight: bold; /* Resaltar el texto */
-  color: white !important; /* Color blanco */
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  color: white !important; 
 }
 
 .navbar .navbar-brand:hover {
-  text-decoration: none; /* Sin subrayado al pasar el mouse */
+  text-decoration: none;
 }
 
-/* Estilo de los enlaces del Navbar */
+
 .navbar .nav-link {
-  color: white !important; /* Color blanco */
-  font-size: 1.1rem; /* Tamaño de texto */
-  margin-right: 15px; /* Espaciado entre enlaces */
-  font-weight: bold; /* Resaltamos el texto */
+  color: white !important; 
+  font-size: 1.1rem; 
+  margin-right: 15px; 
+  font-weight: bold; 
 }
 
 .navbar .nav-link:hover {
-  text-decoration: underline; /* Subrayado al pasar el mouse */
+  text-decoration: underline; 
 }
 
-/* Botón de hamburguesa */
+
 .navbar-toggler {
-  border: none; /* Quitar el borde del botón */
-  padding: 0.5rem; /* Espaciado interno */
+  border: none; 
+  padding: 0.5rem; 
 }
 
 .navbar-toggler-icon {
@@ -285,49 +285,47 @@ h3 {
   height: 24px;
 }
 
-/* Opciones dentro del Navbar */
+
 .navbar-collapse {
-  justify-content: space-between; /* Separar elementos izquierda y derecha */
-  align-items: center; /* Alinear verticalmente */
+  justify-content: space-between; 
+  align-items: center; 
 }
 
-/* Estilo para dispositivos móviles */
 @media (max-width: 768px) {
   .navbar-brand {
-    font-size: 1.2rem; /* Reducir tamaño de la marca */
+    font-size: 1.2rem; 
     padding: 5px 0;
   }
 
   .navbar-nav {
-    text-align: left; /* Alinear el menú a la izquierda */
+    text-align: left; 
     margin-top: 10px;
   }
 
   .navbar-nav .nav-link {
-    font-size: 1rem; /* Reducir el texto */
-    padding: 10px 0; /* Espaciado vertical */
+    font-size: 1rem; 
+    padding: 10px 0; 
   }
 
   .navbar-toggler {
-    padding: 0.5rem; /* Reducir espaciado */
+    padding: 0.5rem; 
     font-size: 1rem;
   }
 }
 
-/* Estilo para dispositivos muy pequeños */
+
 @media (max-width: 480px) {
   .navbar-brand {
-    font-size: 1rem; /* Texto aún más compacto */
+    font-size: 1rem; 
   }
 
   .navbar-nav .nav-link {
-    font-size: 0.9rem; /* Texto pequeño para móviles */
-    padding: 8px 10px; /* Espaciado reducido */
+    font-size: 0.9rem; 
+    padding: 8px 10px; 
   }
 
   .navbar-toggler-icon {
-    width: 22px; /* Botón más pequeño */
+    width: 22px; 
     height: 22px;
   }
 }
-

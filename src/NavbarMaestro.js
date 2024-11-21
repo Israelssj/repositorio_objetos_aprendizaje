@@ -57,7 +57,7 @@ export default function NavbarMaestro() {
         </div>
       </div>
 
-      {/* Modal de contacto */}
+    
       <Modal show={contactDialogVisible} onHide={() => setContactDialogVisible(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Contacto</Modal.Title>

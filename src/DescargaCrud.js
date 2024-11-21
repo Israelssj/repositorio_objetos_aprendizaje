@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
@@ -12,13 +12,23 @@ const DescargaCrud = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(9); 
-    const toast = React.useRef(null);
+    const toast = useRef(null);
 
     useEffect(() => {
         const fetchObjetos = async () => {
-            const response = await axios.get('http://localhost:8080/api/objetos-aprendizaje/');
-            setObjetos(response.data);
-            setFilteredObjetos(response.data); 
+            try {
+                const response = await axios.get('http://localhost:8080/api/objetos-aprendizaje/');
+                setObjetos(response.data);
+                setFilteredObjetos(response.data); 
+            } catch (error) {
+                console.error('Error al obtener objetos de aprendizaje:', error);
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'No se pudieron obtener los objetos de aprendizaje.',
+                    life: 3000,
+                });
+            }
         };
 
         fetchObjetos();
@@ -58,7 +68,10 @@ const DescargaCrud = () => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
         const filtered = objetos.filter((obj) =>
-            obj.archivo.toLowerCase().includes(term)
+            (obj.archivo && obj.archivo.toLowerCase().includes(term)) ||
+            (obj.guion && obj.guion.tipoObjeto && obj.guion.tipoObjeto.toLowerCase().includes(term)) ||
+            (obj.guion && obj.guion.descripcion && obj.guion.descripcion.toLowerCase().includes(term)) ||
+            (obj.guion && obj.guion.nombreMateria && obj.guion.nombreMateria.toLowerCase().includes(term))
         );
         setFilteredObjetos(filtered);
         setFirst(0); 
@@ -72,7 +85,7 @@ const DescargaCrud = () => {
                 <InputText
                     value={searchTerm}
                     onChange={handleSearch}
-                    placeholder="Buscar por nombre de archivo..."
+                    placeholder="Buscar por nombre, tipo, descripción o materia..."
                     className="search-bar"
                 />
             </div>
@@ -80,6 +93,14 @@ const DescargaCrud = () => {
                 {filteredObjetos.slice(first, first + rows).map((obj, index) => (
                     <div className="descarga-card" key={index}>
                         <div className="descarga-card-title">{obj.archivo}</div>
+                        
+                        {obj.guion && (
+                            <div className="descarga-card-details">
+                                <p><strong>Tipo:</strong> {obj.guion.tipoObjeto || 'N/A'}</p>
+                                <p><strong>Descripción:</strong> {obj.guion.descripcion || 'N/A'}</p>
+                                <p><strong>Materia:</strong> {obj.guion.nombreMateria || 'N/A'}</p>
+                            </div>
+                        )}
                         <Button
                             label="Descargar"
                             icon="pi pi-download"

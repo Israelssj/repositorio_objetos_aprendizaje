@@ -97,19 +97,7 @@ function EstadoGuion() {
           <strong>Nombre del usuario que creó el guion:</strong> {`${guion.usuario?.nombreUsuario || ''} ${guion.usuario?.apellidoPaterno || ''}`}
         </p>
 
-        {/* Si el guion está denegado, mostrar la observación y el botón para editar */}
-        {guion.estado?.toLowerCase() === "denegado" && (
-          <div className="observacion">
-            <p><strong>Observación:</strong> {guion.observacion || "Sin observaciones"}</p>
-            {/* Botón para editar el guion */}
-            <Button
-              label="Editar Guion"
-              icon="pi pi-pencil"
-              className="p-button-warning mt-2"
-              onClick={() => navigate(`/editar-guion/${guion.idGuion}`)}
-            />
-          </div>
-        )}
+       
 
         {/* Clasificación por tipo de objeto de aprendizaje */}
         <h4>Detalles de los Objetos de Aprendizaje</h4>

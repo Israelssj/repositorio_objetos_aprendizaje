@@ -44,7 +44,7 @@ export default function NavbarAdministrador() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid justify-content-center">
-        {/* Botón hamburguesa */}
+  
         <button
           className="navbar-toggler"
           type="button"

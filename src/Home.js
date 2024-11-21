@@ -20,7 +20,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
           <h1>Bienvenido a la Plataforma de Gestión Educativa</h1>
@@ -43,7 +42,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="features-section">
         <h2 className="section-title">¿Qué puedes hacer aquí?</h2>
         <div className="features-grid">
@@ -138,7 +136,7 @@ const Home = () => {
             </>
           )}
 
-          {/* Opciones específicas para VERIFICADOROA */}
+          {/* Opciones para VERIFICADOROA */}
           {hasRole("VERIFICADOROA") && (
             <>
               <Card
@@ -190,7 +188,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Information Section for Non-Logged Users */}
       {!auth?.user && (
         <section className="info-section">
           <div className="info-grid">
@@ -223,7 +220,6 @@ const Home = () => {
         </section>
       )}
 
-      {/* Dialogs */}
       <Dialog
         header="¿Qué es un Objeto de Aprendizaje?"
         visible={showLearningDialog}
@@ -264,7 +260,6 @@ const Home = () => {
         </p>
       </Dialog>
 
-      {/* Contact Dialog */}
       <Dialog
         header="Contacto"
         visible={showContactDialog}

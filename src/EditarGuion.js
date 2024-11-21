@@ -48,15 +48,6 @@ const EditarGuion = () => {
         const response = await axios.get(`http://localhost:8080/api/guiones/${id}`);
         const data = response.data;
 
-        
-        const mapTipoPregunta = (tipo) => {
-          const map = {
-            1: 'Abierta',
-            2: 'Opción Múltiple',
-          };
-          return map[tipo] || '';
-        };
-
         setFormData({
           titulo: data.titulo || '',
           descripcion: data.descripcion || '',
@@ -100,9 +91,8 @@ const EditarGuion = () => {
                   elementosCuestionario: data.cuestionarios[0].elementosCuestionario
                     ? data.cuestionarios[0].elementosCuestionario.map((elem) => ({
                         ...elem,
-                        
                         respuestasCuestionario: elem.respuestasCuestionario || [],
-                        tipoPregunta: mapTipoPregunta(elem.tipoPregunta),
+                        tipoPregunta: tipoPreguntaMapInvertido[elem.tipoPregunta] || '',
                       }))
                     : [],
                 }
@@ -140,7 +130,7 @@ const EditarGuion = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
+
   const handleVideoInteractivoChange = (e) => {
     setFormData({
       ...formData,
@@ -257,7 +247,7 @@ const EditarGuion = () => {
       presentacionCurso: { ...formData.presentacionCurso, diapositivas: newDiapositivas },
     });
   };
-
+  
   
   
   const addElementoVideo = () => {
@@ -438,11 +428,11 @@ const EditarGuion = () => {
     });
   };
 
-  // Manejo del envio del formulario para actualizar el guion
+  // Manejo del envío del formulario para actualizar el guion
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      
+      // Actualizar guion general
       await axios.put(`http://localhost:8080/api/guiones/${id}`, {
         titulo: formData.titulo,
         descripcion: formData.descripcion,
@@ -454,13 +444,11 @@ const EditarGuion = () => {
         nombreSubtema: formData.nombreSubtema,        
         semestre: formData.semestre,
         tipoObjeto: formData.tipoObjeto,              
-        idUsuario: auth.user.id,                      
         estado: 'pendiente',                          
         observacion: null,                            
-        
       });
 
-      
+      // Actualizar objeto específico según tipoObjeto
       switch (formData.tipoObjeto) {
         case 'videoInteractivo':
           await handleUpdateVideoInteractivo();
@@ -504,19 +492,21 @@ const EditarGuion = () => {
     }
   };
 
-  
+
+  // Funciones para actualizar cada tipo de objeto de aprendizaje
+
   const handleUpdateVideoInteractivo = async () => {
     if (formData.videoInteractivo.idVideoInteractivo) {
       // Actualizar video interactivo existente
       await axios.put(`http://localhost:8080/api/videos-interactivos/${formData.videoInteractivo.idVideoInteractivo}`, {
         urlVideo: formData.videoInteractivo.urlVideo,  
-        idGuion: id,                                  
+        guion: { idGuion: id }, // Anidamiento correcto de guion
       });
     } else {
       // Crear nuevo video interactivo
       const videoResponse = await axios.post('http://localhost:8080/api/videos-interactivos', {
         urlVideo: formData.videoInteractivo.urlVideo,  
-        idGuion: id,                                  
+        guion: { idGuion: id }, // Anidamiento correcto de guion
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -528,14 +518,16 @@ const EditarGuion = () => {
     }
 
     // Actualizar elementos de video interactivo
-    await axios.delete(`http://localhost:8080/api/elementos-video-interactivo/guion/${id}`);
-    for (const elemento of formData.videoInteractivo.elementos) {
-      await axios.post('http://localhost:8080/api/elementos-video-interactivo', {
-        minutoVideo: elemento.minutoVideo,         
-        pregunta: elemento.pregunta,               
-        tipoPregunta: elemento.tipoPregunta,       
-        idVideoInteractivo: formData.videoInteractivo.idVideoInteractivo,  
-      });
+    if (formData.videoInteractivo.idVideoInteractivo) {
+      await axios.delete(`http://localhost:8080/api/elementos-video-interactivo/video/${formData.videoInteractivo.idVideoInteractivo}`);
+      for (const elemento of formData.videoInteractivo.elementos) {
+        await axios.post('http://localhost:8080/api/elementos-video-interactivo', {
+          minutoVideo: elemento.minutoVideo,         
+          pregunta: elemento.pregunta,               
+          tipoPregunta: elemento.tipoPregunta,       
+          videoInteractivo: { idVideoInteractivo: formData.videoInteractivo.idVideoInteractivo },  
+        });
+      }
     }
   };
 
@@ -544,13 +536,21 @@ const EditarGuion = () => {
       // Actualizar crucigrama existente
       await axios.put(`http://localhost:8080/api/crucigramas/${formData.crucigrama.idCrucigrama}`, {
         contenido: formData.crucigrama.contenido,  
-        idGuion: id,                               
+        guion: { idGuion: id }, // Anidamiento correcto de guion
+        elementosCrucigrama: formData.crucigrama.elementosCrucigrama.map(elemento => ({
+          ...elemento,
+          crucigrama: { idCrucigrama: formData.crucigrama.idCrucigrama }
+        })),
       });
     } else {
       // Crear nuevo crucigrama
       const crucigramaResponse = await axios.post('http://localhost:8080/api/crucigramas', {
         contenido: formData.crucigrama.contenido,  
-        idGuion: id,                               
+        guion: { idGuion: id }, // Anidamiento correcto de guion
+        elementosCrucigrama: formData.crucigrama.elementosCrucigrama.map(elemento => ({
+          ...elemento,
+          crucigrama: { idCrucigrama: null } // Se establecerá después de crear
+        })),
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -560,30 +560,33 @@ const EditarGuion = () => {
         },
       }));
     }
-
+  
     // Actualizar elementos del crucigrama
-    await axios.delete(`http://localhost:8080/api/elementos-crucigrama/guion/${id}`);
-    for (const elemento of formData.crucigrama.elementosCrucigrama) {
-      await axios.post('http://localhost:8080/api/elementos-crucigrama', {
-        pista: elemento.pista,                       
-        pregunta: elemento.pregunta,                 
-        idCrucigrama: formData.crucigrama.idCrucigrama,  
-      });
+    if (formData.crucigrama.idCrucigrama) {
+      await axios.delete(`http://localhost:8080/api/elementos-crucigrama/crucigrama/${formData.crucigrama.idCrucigrama}`);
+      for (const elemento of formData.crucigrama.elementosCrucigrama) {
+        await axios.post('http://localhost:8080/api/elementos-crucigrama', {
+          pista: elemento.pista,                       
+          pregunta: elemento.pregunta,                 
+          crucigrama: { idCrucigrama: formData.crucigrama.idCrucigrama },  
+        });
+      }
     }
   };
+  
 
   const handleUpdateArrastrarPalabras = async () => {
     if (formData.arrastrarPalabras.idArrastrarPalabras) {
       // Actualizar arrastrar palabras existente
       await axios.put(`http://localhost:8080/api/arrastrar-palabras/${formData.arrastrarPalabras.idArrastrarPalabras}`, {
         textoBase: formData.arrastrarPalabras.textoBase,  
-        idGuion: id,                                     
+        guion: { idGuion: id }, // Anidamiento correcto de guion
       });
     } else {
       // Crear nuevo arrastrar palabras
       const arrastrarPalabrasResponse = await axios.post('http://localhost:8080/api/arrastrar-palabras', {
         textoBase: formData.arrastrarPalabras.textoBase,  
-        idGuion: id,                                     
+        guion: { idGuion: id }, // Anidamiento correcto de guion
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -595,12 +598,14 @@ const EditarGuion = () => {
     }
 
     // Actualizar elementos de arrastrar palabras
-    await axios.delete(`http://localhost:8080/api/elementos-arrastrar-palabras/guion/${id}`);
-    for (const elemento of formData.arrastrarPalabras.elementosArrastrarPalabras) {
-      await axios.post('http://localhost:8080/api/elementos-arrastrar-palabras', {
-        palabras: elemento.palabras,                             
-        idArrastrarPalabras: formData.arrastrarPalabras.idArrastrarPalabras,  
-      });
+    if (formData.arrastrarPalabras.idArrastrarPalabras) {
+      await axios.delete(`http://localhost:8080/api/elementos-arrastrar-palabras/arrastrarPalabras/${formData.arrastrarPalabras.idArrastrarPalabras}`);
+      for (const elemento of formData.arrastrarPalabras.elementosArrastrarPalabras) {
+        await axios.post('http://localhost:8080/api/elementos-arrastrar-palabras', {
+          palabras: elemento.palabras,                             
+          arrastrarPalabras: { idArrastrarPalabras: formData.arrastrarPalabras.idArrastrarPalabras },  
+        });
+      }
     }
   };
 
@@ -608,12 +613,12 @@ const EditarGuion = () => {
     if (formData.cuestionario.idCuestionario) {
       // Actualizar cuestionario existente
       await axios.put(`http://localhost:8080/api/cuestionarios/${formData.cuestionario.idCuestionario}`, {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
     } else {
       // Crear nuevo cuestionario
       const cuestionarioResponse = await axios.post('http://localhost:8080/api/cuestionarios', {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -625,27 +630,29 @@ const EditarGuion = () => {
     }
 
     // Actualizar elementos del cuestionario
-    await axios.delete(`http://localhost:8080/api/elementos-cuestionario/guion/${id}`);
-    for (const elemento of formData.cuestionario.elementosCuestionario) {
-      const elementoResponse = await axios.post('http://localhost:8080/api/elementos-cuestionario', {
-        pregunta: elemento.pregunta,                                 
-        tipoPregunta: tipoPreguntaMapInvertido[elemento.tipoPregunta],  
-        idCuestionario: formData.cuestionario.idCuestionario,       
-      });
-
-      const elementoId = elementoResponse.data.idElementosCuestionario;
-
-      for (const respuesta of elemento.respuestasCuestionario) {
-        if (!respuesta.texto || typeof respuesta.correcta === 'undefined') {
-          console.error('Faltan datos en la respuesta:', respuesta);
-          continue; 
-        }
-
-        await axios.post('http://localhost:8080/api/respuestas-cuestionario', {
-          texto: respuesta.texto,                                     
-          correcta: respuesta.correcta ? 1 : 0,                      
-          idElementosCuestionario: elementoId,                       
+    if (formData.cuestionario.idCuestionario) {
+      await axios.delete(`http://localhost:8080/api/elementos-cuestionario/cuestionario/${formData.cuestionario.idCuestionario}`);
+      for (const elemento of formData.cuestionario.elementosCuestionario) {
+        const elementoResponse = await axios.post('http://localhost:8080/api/elementos-cuestionario', {
+          pregunta: elemento.pregunta,                                 
+          tipoPregunta: tipoPreguntaMap[elemento.tipoPregunta],  // Usar tipoPreguntaMap
+          cuestionario: { idCuestionario: formData.cuestionario.idCuestionario },       
         });
+
+        const elementoId = elementoResponse.data.idElementosCuestionario;
+
+        for (const respuesta of elemento.respuestasCuestionario) {
+          if (!respuesta.texto || typeof respuesta.correcta === 'undefined') {
+            console.error('Faltan datos en la respuesta:', respuesta);
+            continue; 
+          }
+
+          await axios.post('http://localhost:8080/api/respuestas-cuestionario', {
+            texto: respuesta.texto,                                     
+            correcta: respuesta.correcta ? 1 : 0,                      
+            elementoCuestionario: { idElementosCuestionario: elementoId },                       
+          });
+        }
       }
     }
   };
@@ -654,12 +661,12 @@ const EditarGuion = () => {
     if (formData.eleccionMultiple.idEleccionMultiple) {
       // Actualizar elección múltiple existente
       await axios.put(`http://localhost:8080/api/eleccion-multiple/${formData.eleccionMultiple.idEleccionMultiple}`, {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
     } else {
       // Crear nueva elección múltiple
       const eleccionMultipleResponse = await axios.post('http://localhost:8080/api/eleccion-multiple', {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -671,21 +678,23 @@ const EditarGuion = () => {
     }
 
     // Actualizar elementos de elección múltiple
-    await axios.delete(`http://localhost:8080/api/elementos-eleccion-multiple/guion/${id}`);
-    for (const elemento of formData.eleccionMultiple.elementosEleccionMultiple) {
-      const elementoResponse = await axios.post('http://localhost:8080/api/elementos-eleccion-multiple', {
-        pregunta: elemento.pregunta,                               
-        idEleccionMultiple: formData.eleccionMultiple.idEleccionMultiple,  
-      });
-
-      const elementoId = elementoResponse.data.idElementosEleccionMultiple;
-
-      for (const respuesta of elemento.respuestas) {
-        await axios.post('http://localhost:8080/api/respuestas-eleccion-multiple', {
-          textoRespuesta: respuesta.textoRespuesta,                   
-          correcta: respuesta.correcta ? 1 : 0,                       
-          idElementosEleccionMultiple: elementoId,                    
+    if (formData.eleccionMultiple.idEleccionMultiple) {
+      await axios.delete(`http://localhost:8080/api/elementos-eleccion-multiple/eleccionMultiple/${formData.eleccionMultiple.idEleccionMultiple}`);
+      for (const elemento of formData.eleccionMultiple.elementosEleccionMultiple) {
+        const elementoResponse = await axios.post('http://localhost:8080/api/elementos-eleccion-multiple', {
+          pregunta: elemento.pregunta,                               
+          eleccionMultiple: { idEleccionMultiple: formData.eleccionMultiple.idEleccionMultiple },  
         });
+
+        const elementoId = elementoResponse.data.idElementosEleccionMultiple;
+
+        for (const respuesta of elemento.respuestas) {
+          await axios.post('http://localhost:8080/api/respuestas-eleccion-multiple', {
+            textoRespuesta: respuesta.textoRespuesta,                   
+            correcta: respuesta.correcta ? 1 : 0,                       
+            elementoEleccionMultiple: { idElementosEleccionMultiple: elementoId },                    
+          });
+        }
       }
     }
   };
@@ -694,12 +703,12 @@ const EditarGuion = () => {
     if (formData.presentacionCurso.idPresentacionCurso) {
       // Actualizar presentación curso existente
       await axios.put(`http://localhost:8080/api/presentaciones-curso/${formData.presentacionCurso.idPresentacionCurso}`, {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
     } else {
       // Crear nueva presentación curso
       const presentacionCursoResponse = await axios.post('http://localhost:8080/api/presentaciones-curso', {
-        idGuion: id,  
+        guion: { idGuion: id },  
       });
       setFormData((prevState) => ({
         ...prevState,
@@ -711,13 +720,15 @@ const EditarGuion = () => {
     }
 
     // Actualizar diapositivas
-    await axios.delete(`http://localhost:8080/api/diapositivas/guion/${id}`);
-    for (const diapositiva of formData.presentacionCurso.diapositivas) {
-      await axios.post('http://localhost:8080/api/diapositivas', {
-        descripcion: diapositiva.descripcion,           
-        interacciones: diapositiva.interacciones,       
-        idPresentacionCurso: formData.presentacionCurso.idPresentacionCurso,  
-      });
+    if (formData.presentacionCurso.idPresentacionCurso) {
+      await axios.delete(`http://localhost:8080/api/diapositivas/presentacionCurso/${formData.presentacionCurso.idPresentacionCurso}`);
+      for (const diapositiva of formData.presentacionCurso.diapositivas) {
+        await axios.post('http://localhost:8080/api/diapositivas', {
+          descripcion: diapositiva.descripcion,           
+          interacciones: diapositiva.interacciones,       
+          presentacionCurso: { idPresentacionCurso: formData.presentacionCurso.idPresentacionCurso },  
+        });
+      }
     }
   };
 
@@ -726,7 +737,7 @@ const EditarGuion = () => {
       <Toast ref={toast} />
       <h2>Editar Guion</h2>
       <form onSubmit={handleSubmit}>
-        {/* Campos Generales */}
+        
         <div className="form-group">
           <label>Título</label>
           <input
@@ -831,8 +842,7 @@ const EditarGuion = () => {
           />
         </div>
 
-        {/* Nota: Eliminado el campo de selección de 'estado' */}
-
+        {/* Selección de Tipo de Objeto de Aprendizaje */}
         <div className="form-group">
           <label>Tipo de Objeto de Aprendizaje</label>
           <select
@@ -903,10 +913,8 @@ const EditarGuion = () => {
                       }}
                       required
                     />
-                    <input
-                      type="text"
+                    <select
                       className="form-control"
-                      placeholder="Tipo de Pregunta"
                       name="tipoPregunta"
                       value={elemento.tipoPregunta}
                       onChange={(e) => {
@@ -918,7 +926,11 @@ const EditarGuion = () => {
                         });
                       }}
                       required
-                    />
+                    >
+                      <option value="">Seleccione un tipo</option>
+                      <option value="Abierta">Abierta</option>
+                      <option value="Opción Múltiple">Opción Múltiple</option>
+                    </select>
                     <button
                       type="button"
                       className="btn btn-danger mt-1"

@@ -1,0 +1,273 @@
+/* ============================
+   ObjetoAprendizajeCrud.css
+============================ */
+
+/* Contenedor Principal */
+.oas-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado */
+.oas-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.oas-header h1 {
+    font-size: 28px;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.oas-upload-icon {
+    font-size: 28px;
+    color: #007bff;
+}
+
+/* Grupo de Formulario */
+.oas-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.oas-form-label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+/* Dropdown */
+.oas-dropdown {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Tarjeta de Subida */
+.oas-upload-card {
+    padding: 25px;
+    background-color: #f4f6f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/* FileUpload */
+.oas-file-upload .p-fileupload-buttonbar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.oas-file-upload .p-button {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.oas-file-upload .p-button-primary {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+.oas-file-upload .p-button-primary:hover {
+    background-color: #218838;
+}
+
+.oas-file-upload .p-button-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+.oas-file-upload .p-button-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Botón de Cerrar en FileUpload */
+.p-fileupload .p-button-close {
+    background-color: transparent; /* Fondo transparente */
+    color: #555555; /* Gris oscuro para el icono */
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.p-fileupload .p-button-close:hover {
+    opacity: 1;
+    color: #000000; /* Negro al pasar el cursor */
+}
+
+/* Texto de Advertencia */
+.oas-warning-text {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+}
+
+/* Sección de Objetos Recientes */
+.oas-recent-section {
+    margin-top: 40px;
+}
+
+.oas-recent-section h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+/* Tarjetas de Objetos Recientes */
+.oas-recent-uploads {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.oas-recent-card {
+    width: 100%;
+    max-width: 350px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.oas-recent-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Título de la Tarjeta */
+.oas-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
+    width: 100%;
+}
+
+/* Detalles de la Tarjeta */
+.oas-recent-card p {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 15px;
+}
+
+.oas-recent-card p strong {
+    color: #333333;
+}
+
+/* Botón de Descargar */
+.oas-download-button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: #007bff;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.oas-download-button:hover {
+    background-color: #0056b3;
+}
+
+/* Mensaje de No Subidas */
+.oas-no-uploads {
+    text-align: center;
+    font-size: 16px;
+    color: #777777;
+    margin-top: 20px;
+}
+
+/* Toast Notifications */
+.p-toast {
+    z-index: 9999;
+}
+
+/* ============================
+   Responsive Styles
+============================ */
+
+@media (max-width: 768px) {
+    .oas-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .oas-header h1 {
+        font-size: 24px;
+        margin-right: 5px;
+    }
+
+    .oas-upload-card {
+        padding: 20px;
+    }
+
+    .oas-file-upload .p-button {
+        font-size: 12px;
+        padding: 10px 16px;
+    }
+
+    .oas-recent-card {
+        max-width: 100%;
+    }
+
+    .oas-recent-card p {
+        font-size: 14px;
+    }
+
+    .oas-download-button {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+
+    /* Ajustes en FileUpload para pantallas pequeñas */
+    .p-fileupload .p-button-close {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        top: 8px;
+        right: 8px;
+    }
+
+    /* Títulos Ajustados */
+    .oas-header h1 {
+        font-size: 24px;
+    }
+
+    .oas-recent-section h2 {
+        font-size: 20px;
+    }
+}
